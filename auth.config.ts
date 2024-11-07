@@ -35,6 +35,21 @@ const authConfig = {
       }
     })
   ],
+  callbacks: {
+    // Callback de signIn para validar os usuários do GitHub
+    async signIn({ user, account, profile }) {
+      if (account?.provider === 'github') {
+        console.log('GitHub User Login:', profile?.login);
+        // Verificar se o login do usuário no GitHub corresponde ao permitido (Jeanikt)
+        if (profile?.login === 'Jeanikt') {
+          return true; // Permitir login apenas para o usuário 'Jeanikt'
+        } else {
+          return false; // Rejeitar login para qualquer outro usuário
+        }
+      }
+      return false; // Rejeitar login se o provedor não for GitHub
+    }
+  },
   pages: {
     signIn: '/' //sigin page
   }
